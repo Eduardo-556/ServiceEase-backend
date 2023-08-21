@@ -1,3 +1,4 @@
+
 import { ResourceOptions } from "adminjs";
 
 const userResourceOptions: ResourceOptions = {
@@ -88,3 +89,4 @@ const userResourceOptions: ResourceOptions = {
 };
 
 export { userResourceOptions };
+

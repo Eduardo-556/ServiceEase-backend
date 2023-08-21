@@ -1,5 +1,8 @@
+
 import { DataTypes, Model, Optional } from "sequelize";
 import { database } from "../database";
+import bcrypt from "bcrypt";
+
 
 export interface User {
   id: number;
@@ -72,4 +75,13 @@ export const User = database.define<UserInstance, User>("User", {
     allowNull: false,
     type: DataTypes.STRING,
   },
-});
+},{
+  hooks: {
+    beforeSave: async (user) => {
+      if (user.isNewRecord || user.changed('password')) {
+        user.password = await bcrypt.hash(user.password.toString(), 10); }
+      
+  }}
+}
+);
+

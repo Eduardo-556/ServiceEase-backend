@@ -5,9 +5,14 @@ import AdminJSSequelize from "@adminjs/sequelize";
 import { adminJsResources } from "./resoucers";
 import { User } from "../models";
 import bcrypt from "bcrypt";
+import { ADMINJS_COOKIE_PASSWORD } from "../config/environment";
+import session from "express-session";
+import connectSession from "connect-session-sequelize";
 
+const SequelizeStore = connectSession(session.Store);
+const store = new SequelizeStore({ db: database });
 AdminJS.registerAdapter(AdminJSSequelize);
-
+store.sync();
 export const adminJs = new AdminJS({
   databases: [database],
   rootPath: "/admin",
@@ -50,11 +55,13 @@ export const adminJsRouter = AdminJSExpress.buildAuthenticatedRouter(
       }
       return false;
     },
-    cookiePassword: "senha-do-cookie",
+    cookiePassword: ADMINJS_COOKIE_PASSWORD,
   },
   null,
   {
     resave: false,
     saveUninitialized: false,
+    store: store,
+    secret: ADMINJS_COOKIE_PASSWORD,
   }
 );

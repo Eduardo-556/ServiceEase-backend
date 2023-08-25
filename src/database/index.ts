@@ -1,12 +1,7 @@
 import { Sequelize } from "sequelize";
+import { DATABASE_URL } from "../config/environment";
 
-export const database = new Sequelize({
-  dialect: "postgres",
-  host: "localhost",
-  port: 5432,
-  database: "serviceease_development",
-  username: "serviceease",
-  password: "serviceease",
+export const database = new Sequelize(DATABASE_URL, {
   define: {
     underscored: true,
   },

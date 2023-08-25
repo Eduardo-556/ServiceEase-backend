@@ -1,4 +1,3 @@
-import { create } from "domain";
 import { User } from "../models";
 import { UserCreationAttributes } from "../models/User";
 
@@ -29,7 +28,7 @@ export const userServices = {
     return userDetails;
   },
 
-  findbyEmail: async (email: string) => {
+  findByEmail: async (email: string) => {
     const user = await User.findOne({
       where: {
         email: email,

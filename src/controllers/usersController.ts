@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { User } from "../models";
 import { userServices } from "../services/usersService";
+import { jwtService } from "../services/jwtService";
 
 export const userController = {
   // GET /users
@@ -47,7 +48,7 @@ export const userController = {
       req.body;
     console.log(req.body);
     try {
-      const userAlreadyExists = await userServices.findbyEmail(email);
+      const userAlreadyExists = await userServices.findByEmail(email);
 
       if (userAlreadyExists) {
         return res.status(400).json({ message: "User already exists" });
@@ -66,6 +67,39 @@ export const userController = {
       });
 
       return res.status(200).json(user);
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(400).json({ message: error.message });
+      }
+    }
+  },
+
+  // POST /auth/login
+  login: async (req: Request, res: Response) => {
+    const { email, password } = req.body;
+    try {
+      const user = await userServices.findByEmail(email);
+
+      if (!user) {
+        return res.status(400).json({ message: "User not found" });
+      }
+
+      user.checkPassword(password, (err, isSame) => {
+        if (err) {
+          return res.status(400).json({ message: err.message });
+        }
+        if (!isSame) {
+          return res.status(400).json({ message: "Invalid password" });
+        }
+        const payload = {
+          id: user.id,
+          firstName: user.firstName,
+          email: user.email,
+        };
+        const token = jwtService.signToken(payload, "7d");
+
+        return res.json({ authenticated: true, ...payload, token });
+      });
     } catch (error) {
       if (error instanceof Error) {
         return res.status(400).json({ message: error.message });

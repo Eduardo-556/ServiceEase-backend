@@ -1,5 +1,6 @@
 import { Op } from "sequelize";
 import { Customer, Service } from "../models";
+import { ServiceCreationAttributes } from "../models/Service";
 
 export const serviceOrdersService = {
   findOrders: async (userId: string, name: string) => {
@@ -21,5 +22,16 @@ export const serviceOrdersService = {
       ],
     });
     return orders;
+  },
+
+  createOrder: async (attributes: ServiceCreationAttributes) => {
+    const order = await Service.create(attributes);
+    return order;
+  },
+
+  deleteOrder: async (id: string) => {
+    const order = await Service.findByPk(id);
+    await order?.destroy();
+    return order;
   },
 };

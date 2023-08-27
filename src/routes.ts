@@ -52,6 +52,10 @@ router.get(
   checkUserAccess,
   serviceOrders.search
 );
+// Criar uma nova ordem de serviço
+router.post("/service/create", ensureAuth, serviceOrders.create);
+//Deletar uma ordem de serviço
+router.delete("/service/delete", ensureAuth, serviceOrders.delete);
 
 router.post("/auth/register", userController.register);
 router.post("/auth/login", userController.login);

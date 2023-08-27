@@ -60,6 +60,7 @@ export const Service = database.define<ServiceInstance, Service>("Service", {
     type: DataTypes.DATE,
   },
   serviceStatus: {
+    defaultValue: "pending",
     allowNull: false,
     type: DataTypes.STRING,
   },

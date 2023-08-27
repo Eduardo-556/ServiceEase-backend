@@ -78,10 +78,7 @@ export async function checkCustomerAccess(
   try {
     const customer = await Customer.findByPk(customerId);
     const userIdFromCustomer = customer?.userId;
-    console.log(userIdFromToken);
-    console.log(requestedUserId);
-    console.log(customerId);
-    console.log(userIdFromCustomer);
+
     if (
       userIdFromToken === Number(requestedUserId) &&
       userIdFromToken === userIdFromCustomer

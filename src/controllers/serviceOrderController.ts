@@ -36,9 +36,7 @@ export const serviceOrders = {
     const userId = req.user?.id;
     const requestedUserId = req.body.userId;
     const serviceId = req.body.serviceId;
-    console.log(userId);
-    console.log(requestedUserId);
-    console.log(serviceId);
+
     try {
       if (userId !== Number(requestedUserId)) {
         return res.status(403).json({ message: "Não autorizado" });

@@ -10,6 +10,17 @@ import {
 } from "./middlewares/auth";
 
 const router = express.Router();
+
+// Atualizar dados do usuário
+router.put("/users/current", ensureAuth, userController.update);
+
+// Atualizar senha do usuário
+router.put(
+  "/users/current/password",
+  ensureAuth,
+  userController.updatePassword
+);
+
 // Lista de usuários
 router.get(
   "/list/users",
@@ -17,6 +28,7 @@ router.get(
   checkAdminAccess,
   userController.userList
 );
+
 // Lista de clientes de um usuário
 router.get(
   "/users/:id",
@@ -24,6 +36,7 @@ router.get(
   checkUserAccess,
   userController.userCustomers
 );
+
 // Detalhes de um usuário
 router.get(
   "/userdetails/:id",
@@ -31,6 +44,13 @@ router.get(
   checkUserAccess,
   userController.userDetails
 );
+
+// Cria um novo cliente
+router.post("/customer/create", ensureAuth, customersController.create);
+
+// Deletar um cliente
+router.delete("/customer/delete", ensureAuth, customersController.delete);
+
 // Pesquisar por clientes
 router.get(
   "/users/:id/search",
@@ -38,6 +58,7 @@ router.get(
   checkUserAccess,
   customersController.search
 );
+
 // Exibir detalhes de um cliente
 router.get(
   "/users/:id/customer/:customerId",
@@ -45,6 +66,7 @@ router.get(
   checkCustomerAccess,
   customersController.showDetails
 );
+
 // Pesquisa por ordens de serviço
 router.get(
   "/:id/service/search",
@@ -52,11 +74,17 @@ router.get(
   checkUserAccess,
   serviceOrders.search
 );
+
 // Criar uma nova ordem de serviço
 router.post("/service/create", ensureAuth, serviceOrders.create);
+
 //Deletar uma ordem de serviço
 router.delete("/service/delete", ensureAuth, serviceOrders.delete);
 
+//Registra um novo usuário
 router.post("/auth/register", userController.register);
+
+//Autentica um usuário
 router.post("/auth/login", userController.login);
+
 export { router };

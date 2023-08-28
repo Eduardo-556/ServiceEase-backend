@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { User } from "../models";
 import { userServices } from "../services/usersService";
 import { jwtService } from "../services/jwtService";
+import { AuthenticatedRequest } from "../middlewares/auth";
 
 export const userController = {
   // GET /users
@@ -46,7 +47,6 @@ export const userController = {
   register: async (req: Request, res: Response) => {
     const { firstName, lastName, email, password, phone, birth, language } =
       req.body;
-    console.log(req.body);
     try {
       const userAlreadyExists = await userServices.findByEmail(email);
 
@@ -99,6 +99,54 @@ export const userController = {
         const token = jwtService.signToken(payload, "7d");
 
         return res.json({ authenticated: true, ...payload, token });
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(400).json({ message: error.message });
+      }
+    }
+  },
+
+  update: async (req: AuthenticatedRequest, res: Response) => {
+    const { id } = req.user!;
+    const { firstName, lastName, email, phone, birth, language } = req.body;
+
+    try {
+      const updatedUser = await userServices.update(id, {
+        firstName,
+        lastName,
+        email,
+        phone,
+        birth,
+        language,
+      });
+      return res.json(updatedUser);
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(400).json({ message: error.message });
+      }
+    }
+  },
+
+  updatePassword: async (req: AuthenticatedRequest, res: Response) => {
+    const user = req.user!;
+    const { password, newPassword } = req.body;
+
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
+    try {
+      user.checkPassword(password, async (err, isSame) => {
+        if (err) {
+          return res.status(400).json({ message: err.message });
+        }
+        if (!isSame) {
+          return res.status(400).json({ message: "Invalid password" });
+        }
+
+        await userServices.updatePassword(user.id, newPassword);
+        return res.status(204).send();
       });
     } catch (error) {
       if (error instanceof Error) {

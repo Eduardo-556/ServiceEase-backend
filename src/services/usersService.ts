@@ -41,4 +41,31 @@ export const userServices = {
     const newUser = await User.create(attributes);
     return newUser;
   },
+
+  update: async (
+    id: number,
+    attributes: {
+      firstName: string;
+      lastName: string;
+      email: string;
+      phone: string;
+      birth: Date;
+      language: "pt-BR" | "en-US";
+    }
+  ) => {
+    const [affectedRows, updatedUsers] = await User.update(attributes, {
+      where: { id },
+      returning: true,
+    });
+    return updatedUsers[0];
+  },
+
+  updatePassword: async (id: number, password: string) => {
+    const [affectedRows, updatedUsers] = await User.update(
+      { password },
+      { where: { id }, individualHooks: true, returning: true }
+    );
+
+    return updatedUsers[0];
+  },
 };

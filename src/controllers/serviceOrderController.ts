@@ -3,7 +3,7 @@ import { serviceOrdersService } from "../services/serviceOrderService";
 import { AuthenticatedRequest } from "../middlewares/auth";
 
 export const serviceOrders = {
-  // GET :id/service/search?name=:name
+  // GET /:id/service/search?name=:name
   search: async (req: Request, res: Response) => {
     const { id } = req.params;
     const { name } = req.query;
@@ -28,6 +28,23 @@ export const serviceOrders = {
       return res.status(201).json(newOrder);
     } catch {
       return res.status(400).json({ message: "Error creating order" });
+    }
+  },
+
+  // PUT /service/update/:id
+  update: async (req: AuthenticatedRequest, res: Response) => {
+    const serviceId = req.params.id;
+    const attributes = req.body;
+    try {
+      const updatedService = await serviceOrdersService.updateOrder(
+        serviceId,
+        attributes
+      );
+      return res.status(200).json(updatedService);
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(400).json({ message: error.message });
+      }
     }
   },
 

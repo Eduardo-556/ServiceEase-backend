@@ -31,6 +31,23 @@ export const customersController = {
     }
   },
 
+  //PUT /customer/update/:id
+  update: async (req: AuthenticatedRequest, res: Response) => {
+    const customerId = req.params.id;
+    const attributes = req.body;
+    try {
+      const updatedCustomer = await customersServices.update(
+        customerId,
+        attributes
+      );
+      return res.status(200).json(updatedCustomer);
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(400).json({ message: error.message });
+      }
+    }
+  },
+
   // POST /customer/create
   create: async (req: Request, res: Response) => {
     const attributes = req.body;

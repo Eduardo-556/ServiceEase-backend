@@ -29,6 +29,12 @@ export const serviceOrdersService = {
     return order;
   },
 
+  updateOrder: async (id: string, attributes: ServiceCreationAttributes) => {
+    const order = await Service.findByPk(id);
+    const updatedOrder = await order?.update(attributes);
+    return updatedOrder;
+  },
+
   deleteOrder: async (id: string) => {
     const order = await Service.findByPk(id);
     await order?.destroy();

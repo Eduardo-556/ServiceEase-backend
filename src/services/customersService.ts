@@ -21,6 +21,12 @@ export const customersServices = {
     return customer;
   },
 
+  update: async (id: string, attributes: CustomerCretionAttributes) => {
+    const customer = await Customer.findByPk(id);
+    await customer?.update(attributes);
+    return customer;
+  },
+
   create: async (attributes: CustomerCretionAttributes) => {
     const newcustomer = await Customer.create(attributes);
     return newcustomer;

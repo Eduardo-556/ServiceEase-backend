@@ -8,6 +8,7 @@ import {
   checkUserAccess,
   ensureAuth,
 } from "./middlewares/auth";
+import { serviceImg } from "./controllers/serviceImgController";
 
 const router = express.Router();
 
@@ -51,6 +52,9 @@ router.post("/customer/create", ensureAuth, customersController.create);
 // Deletar um cliente
 router.delete("/customer/delete", ensureAuth, customersController.delete);
 
+// Atualizar dados de um cliente
+router.put("/customer/update/:id", ensureAuth, customersController.update);
+
 // Pesquisar por clientes
 router.get(
   "/users/:id/search",
@@ -78,6 +82,9 @@ router.get(
 // Criar uma nova ordem de serviço
 router.post("/service/create", ensureAuth, serviceOrders.create);
 
+//Atualizar dados de uma ordem de serviço
+router.put("/service/update/:id", ensureAuth, serviceOrders.update);
+
 //Deletar uma ordem de serviço
 router.delete("/service/delete", ensureAuth, serviceOrders.delete);
 
@@ -86,5 +93,14 @@ router.post("/auth/register", userController.register);
 
 //Autentica um usuário
 router.post("/auth/login", userController.login);
+
+// Adicionar imagem a um serviço
+router.post("/service/:id/img", ensureAuth, serviceImg.create);
+
+// Busca por imagens de um serviço
+router.get("/service/:id/img", ensureAuth, serviceImg.search);
+
+// Deleta uma imagem de um serviço
+router.delete("/service/:id/img", ensureAuth, serviceImg.delete);
 
 export { router };

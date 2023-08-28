@@ -1,13 +1,13 @@
 import dotenv from "dotenv";
 dotenv.config();
-
+import cors from "cors";
 import express from "express";
 import { database } from "./database";
 import { adminJs, adminJsRouter } from "./adminjs";
 import { router } from "./routes";
 
 const app = express();
-
+app.use(cors());
 app.use(express.static("public"));
 app.use(express.json());
 app.use(adminJs.options.rootPath, adminJsRouter);

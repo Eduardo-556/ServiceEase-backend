@@ -30,12 +30,12 @@ export const userController = {
     }
   },
 
-  // GET userdetails/:id
-  userDetails: async (req: Request, res: Response) => {
-    const { id } = req.params;
+  // GET userdetails/
+  userDetails: async (req: AuthenticatedRequest, res: Response) => {
+    const currentUser = req.user!;
+
     try {
-      const user = await userServices.showDetailsOfUser(id);
-      return res.json(user);
+      return res.json(currentUser);
     } catch (error) {
       if (error instanceof Error) {
         return res.status(400).json({ message: error.message });

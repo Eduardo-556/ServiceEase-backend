@@ -39,12 +39,7 @@ router.get(
 );
 
 // Detalhes de um usuário
-router.get(
-  "/userdetails/:id",
-  ensureAuth,
-  checkUserAccess,
-  userController.userDetails
-);
+router.get("/userdetails", ensureAuth, userController.userDetails);
 
 // Cria um novo cliente
 router.post("/customer/create", ensureAuth, customersController.create);

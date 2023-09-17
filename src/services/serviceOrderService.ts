@@ -25,7 +25,7 @@ export const serviceOrdersService = {
   },
 
   findOrderById: async (id: string) => {
-    const order = await Service.findByPk(id);
+    const order = await Service.findByPk(id, { include: [Customer] });
     return order;
   },
 

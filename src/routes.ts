@@ -74,6 +74,9 @@ router.get(
   serviceOrders.search
 );
 
+// Detalhes de uma ordem de serviço
+router.get("/service/:orderId", ensureAuth, serviceOrders.showDetails);
+
 // Criar uma nova ordem de serviço
 router.post("/service/create", ensureAuth, serviceOrders.create);
 

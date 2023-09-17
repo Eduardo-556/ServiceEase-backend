@@ -19,6 +19,22 @@ export const serviceOrders = {
     }
   },
 
+  // GET /service/:orderId
+  showDetails: async (req: Request, res: Response) => {
+    const { orderId } = req.params;
+    try {
+      if (typeof orderId !== "string")
+        throw new Error("orderId must be a string");
+      const serviceOrder = await serviceOrdersService.findOrderById(orderId);
+
+      return res.json(serviceOrder);
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(400).json({ message: error.message });
+      }
+    }
+  },
+
   // POST /service/create
   create: async (req: Request, res: Response) => {
     const orderAttributes = req.body;

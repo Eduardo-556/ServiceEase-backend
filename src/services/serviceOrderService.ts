@@ -24,6 +24,11 @@ export const serviceOrdersService = {
     return orders;
   },
 
+  findOrderById: async (id: string) => {
+    const order = await Service.findByPk(id);
+    return order;
+  },
+
   createOrder: async (attributes: ServiceCreationAttributes) => {
     const order = await Service.create(attributes);
     return order;

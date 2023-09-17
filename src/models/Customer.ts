@@ -9,6 +9,7 @@ export interface Customer {
   phone: string;
   address: string;
   userId: number;
+  nif: string;
 }
 
 export interface CustomerCretionAttributes extends Optional<Customer, "id"> {}
@@ -32,6 +33,11 @@ export const Customer = database.define<CustomerInstance, Customer>(
     },
     lastName: {
       allowNull: false,
+      type: DataTypes.STRING,
+    },
+    nif: {
+      allowNull: false,
+      unique: true,
       type: DataTypes.STRING,
     },
     email: {

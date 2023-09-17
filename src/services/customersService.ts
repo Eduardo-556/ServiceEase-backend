@@ -3,6 +3,15 @@ import { Customer } from "../models";
 import { CustomerCretionAttributes } from "../models/Customer";
 
 export const customersServices = {
+  findAll: async (userId: string) => {
+    const customers = await Customer.findAll({
+      where: {
+        userId: userId,
+      },
+    });
+    return customers;
+  },
+
   findByName: async (userId: string, name: string) => {
     const customers = await Customer.findAll({
       where: {

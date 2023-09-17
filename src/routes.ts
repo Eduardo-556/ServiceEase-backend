@@ -58,6 +58,9 @@ router.get(
   customersController.search
 );
 
+// Retorna todos os clientes do usuário
+router.get("/users/:id/customer", ensureAuth, customersController.getAll);
+
 // Exibir detalhes de um cliente
 router.get(
   "/users/:id/customer/:customerId",

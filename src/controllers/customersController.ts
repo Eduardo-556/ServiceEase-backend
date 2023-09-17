@@ -3,6 +3,20 @@ import { customersServices } from "../services/customersService";
 import { AuthenticatedRequest } from "../middlewares/auth";
 
 export const customersController = {
+  // GET users/:id/customer
+  getAll: async (req: AuthenticatedRequest, res: Response) => {
+    const id = req.params.id;
+
+    try {
+      const customers = await customersServices.findAll(id.toString());
+      return res.json(customers);
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(400).json({ message: error.message });
+      }
+    }
+  },
+
   // GET users/:id/search?name=:name
   search: async (req: Request, res: Response) => {
     const { id } = req.params;

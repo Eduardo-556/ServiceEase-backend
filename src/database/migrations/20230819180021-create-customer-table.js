@@ -17,6 +17,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DataTypes.STRING,
       },
+      nif: {
+        allowNull: false,
+        unique: true,
+        type: Sequelize.DataTypes.STRING,
+      },
       email: {
         allowNull: false,
         unique: true,

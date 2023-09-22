@@ -20,6 +20,7 @@ export const serviceOrdersService = {
           },
         },
       ],
+      order: [["updatedAt", "DESC"]],
     });
     return orders;
   },

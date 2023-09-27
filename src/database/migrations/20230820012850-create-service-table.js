@@ -35,6 +35,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DataTypes.STRING,
       },
+      technical_description: {
+        allowNull: true,
+        type: Sequelize.DataTypes.STRING,
+      },
       deadline: {
         allowNull: false,
         type: Sequelize.DataTypes.DATE,

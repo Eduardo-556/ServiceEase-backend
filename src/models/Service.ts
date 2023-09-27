@@ -8,6 +8,7 @@ export interface Service {
   deviceSerial: string;
   deviceImei: string;
   serviceDescription: string;
+  technicalDescription: string;
   deadline: Date;
   serviceStatus: "pending" | "started" | "paused" | "ended";
   startTime: Date;
@@ -26,6 +27,7 @@ export interface ServiceCreationAttributes
     | "endTime"
     | "totalTime"
     | "totalCost"
+    |  "technicalDescription"
     | "deviceSerial"
     | "deviceImei"
   > {}
@@ -53,6 +55,10 @@ export const Service = database.define<ServiceInstance, Service>("Service", {
   },
   serviceDescription: {
     allowNull: false,
+    type: DataTypes.STRING,
+  },
+  technicalDescription: {
+    allowNull: true,
     type: DataTypes.STRING,
   },
   deadline: {
